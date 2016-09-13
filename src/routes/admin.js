@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoDB = require('mongodb').MongoClient;
 
 const books = [
 	{
@@ -52,27 +53,20 @@ const books = [
 	}
 ];
 
-const routes = (list) => {
-	router
-		.route('/')
+
+const routes = () => {
+	router.route('/addBooks')
 		.get((req, res, next) => {
-		res.render('books', {
-			list,
-			books
+			const url = 'mongodb://localhost:27017/libraryApp';
+
+			mongoDB.connect(url, (err, db) => {
+				const collection = db.collection('books');
+				collection.insertMany(books, (err, result) => {
+					res.send(result);
+				});
+				db.close();
+			});
 		});
-	});
-
-	router.route('/:id')
-		.all((req, res, next) => {
-
-		})
-		.get((req, res, next) => {
-		const id = req.params.id;
-		res.render('book', {
-			list,
-			book: books[id]
-		})
-	});
 
 	return router;
 };
