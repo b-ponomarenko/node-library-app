@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const mongoDB = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 
 const books = [
 	{
@@ -53,26 +55,46 @@ const books = [
 ];
 
 const routes = (list) => {
+
+	router.use((req, res, next) => {
+		if (!req.user) {
+			return res.redirect('/');
+		}
+		next();
+	});
+
 	router
 		.route('/')
 		.get((req, res, next) => {
-		res.render('books', {
-			list,
-			books
+			const url = 'mongodb://localhost:27017/libraryApp';
+
+			mongoDB.connect(url, (err, db) => {
+				const collection = db.collection('books');
+				collection.find({}).toArray((err, books) => {
+					res.render('books', {
+						list,
+						books
+					});
+				});
+			});
 		});
-	});
 
 	router.route('/:id')
-		.all((req, res, next) => {
-
-		})
 		.get((req, res, next) => {
-		const id = req.params.id;
-		res.render('book', {
-			list,
-			book: books[id]
-		})
-	});
+			const url = 'mongodb://localhost:27017/libraryApp';
+
+			mongoDB.connect(url, (err, db) => {
+				const collection = db.collection('books');
+				const id = new ObjectID(req.params.id);
+
+				collection.findOne({_id: id}, (err, book) => {
+					res.render('book', {
+						list,
+						book
+					});
+				});
+			});
+		});
 
 	return router;
 };
