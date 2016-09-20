@@ -15,9 +15,11 @@
     "express": "^4.13.3",
     "express-handlebars": "^2.0.1",
     "express-session": "^1.14.1",
+    "http": "0.0.0",
     "mongodb": "^2.2.9",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "gulp": "^3.9.0",

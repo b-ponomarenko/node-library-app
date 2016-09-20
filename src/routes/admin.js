@@ -7,19 +7,23 @@ const books = [
 		title: 'War and Peace',
 		genre: 'Historical Fiction',
 		author: 'Lev Nikolayevich Tolstoy',
-		read: false
+		read: false,
+		bookId: 656
 	},
 	{
 		title: 'Les Misérables',
 		genre: 'Historical Fiction',
 		author: 'Victor Hugo',
-		read: false
+		read: false,
+		bookId: 24280
 	},
 	{
 		title: 'The Time Machine',
 		genre: 'Science Fiction',
 		author: 'H. G. Wells',
-		read: false
+		read: false,
+		bookId: 656
+
 	},
 	{
 		title: 'A Journey into the Center of the Earth',
